@@ -1,5 +1,10 @@
 
 '''
+
+# Note that double quantization is totally done on GPU so our GPU should be capable enough to do that.
+
+
+
 # What is Nested Quantization?
     - Nested quantization (also called double quantization or quantization of quantization parameters) is an advanced post-training quantization technique used to further compress the weights of large language models (LLMs) while minimizing accuracy loss. It's particularly popular in libraries like BitsAndBytes for 4-bit quantization schemes (e.g., NF4 or FP4).
 
@@ -18,7 +23,8 @@
 
 # Limitations: Only for supported dtypes (NF4/FP4); not for 8-bit. Requires CUDA 11+ (your 12.6 setup is fine).
 
-# Additionally we can 
+# Additionally we can use "llm_int8_enable_fp32_cpu_offload=True" to offload some tasks to CPU if our GPU is not capable enough to load the model
+
 '''
 import os
 
@@ -33,7 +39,7 @@ from dotenv import load_dotenv
 load_dotenv() # The HF_TOKEN is set directly in .env file
 
 # Model ID (use a small one for testing; requires HF token for gated like Llama)
-model_id = "meta-llama/Llama-3.1-8B-Instruct"  # Or "meta-llama/Llama-2-7b-hf"
+model_id = "meta-llama/Llama-3.2-3B-Instruct"  # Or "meta-llama/Llama-2-7b-hf"
 
 # BitsAndBytesConfig for 4-bit with NESTED (double) quantization
 quantization_config = BitsAndBytesConfig(
@@ -68,8 +74,9 @@ tokenizer.save_pretrained("./double_quantized_model")
 
 
 
-model = AutoModelForCausalLM.from_pretrained("./double_quantized_model", device_map="auto")
-tokenizer = AutoTokenizer.from_pretrained("./double_quantized_model" , device_map="auto")
+### Note :- While loading the quantized or double quantized models we should not pass device map = auto it will throw error because the quantized models are to be solely loaded via GPU and device map offloads these models to CPU which is invalid.
+model = AutoModelForCausalLM.from_pretrained("./double_quantized_model")
+tokenizer = AutoTokenizer.from_pretrained("./double_quantized_model" )
 
 
 
