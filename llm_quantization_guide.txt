@@ -1,0 +1,32 @@
+# Why Quantize?
+
+    Because it allows you to run big models on small GPUs.
+
+    Your GPU (RTX Quadro 4000 with 8GB VRAM) cannot run 7B+ models in FP16.
+    But with 4-bit quantization (GPTQ/AWQ), it becomes possible.
+
+
+# What Tools Are Used for Quantization?
+
+    There are 3 popular quantization/tool libraries:
+
+    1. GPTQ (Very Popular)
+        - Works for most transformer models
+        - Good for smaller GPUs
+        - Creates .safetensors quantized files
+        - Supported by vLLM & HuggingFace
+
+    2. AWQ (New, very efficient) (This is now shifted to LLM compressor library by Vllm library)
+        - High accuracy
+        - Better for chat models
+        - Works GREAT with vLLM
+        - Recommended for most users
+
+    3. bitsAndBytes (bnb)
+        - Lightweight
+        - Easy to use
+        - Supports 8-bit and 4-bit
+        - Not supported by vLLM for 4-bit
+        - Slower than GPTQ/AWQ
+
+# The AWQ and GPTQ has been adopted by llmcompressor library via VLLM , so it is complex yet highly customizable (We can quantize either weights or activation functions or both)

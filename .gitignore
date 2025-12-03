@@ -1,0 +1,3 @@
+.venv/*
+HF/CACHE/*
+.env

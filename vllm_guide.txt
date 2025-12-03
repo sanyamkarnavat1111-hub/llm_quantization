@@ -1,0 +1,35 @@
+
+# Command to install :- uv pip install vllm
+
+### vLLM is used to:
+    1. Run and serve large language models efficiently
+        You can load and run models like LLaMA, Mixtral, Gemma, Mistral, Qwen, etc., with excellent performance.
+
+    2. Deploy LLMs with an optimized inference engine
+        It’s often used instead of slower frameworks like Hugging Face Transformers when serving models to many users.
+
+    3. Provide OpenAI-compatible API endpoints
+
+        vLLM can expose models using the same API format as OpenAI:
+
+            vllm serve meta-llama/Llama-3-8B
+
+
+## VLLM also supports quantization (This does not mean VLLM will quantize model for you,but instead the quantized models can be used with VLLms )
+
+    ## Supports these quantization technique:
+
+        - AWQ
+
+        - GPTQ
+
+        - SqueezeLLM
+
+        - FP8 / INT8 / 4-bit weights
+
+    # This reduces memory footprint and cost.
+
+
+# This error comes "ModuleNotFoundError: No module named 'vllm._C' if vllm is installed in windows python virtual environment
+    - If this issue comes then we should install this library inside virtual environment created in WSL or linux.
+
